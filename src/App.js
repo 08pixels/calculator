@@ -6,6 +6,14 @@ export default class Calculator extends Component {
   constructor(props) {
     super(props);
     this.state = { opened: false, display: ''};
+
+    this.buttons = [
+      ['C', '()', 'del', '/'],
+      ['7', '8', '9', 'x'],
+      ['4', '5', '6', '-'],
+      ['1', '2', '3', '+'],
+      ['+/-', '0', '.', '=']
+    ]
   }
 
   changeDisplay(currentDisplay, value, opened) {
@@ -34,6 +42,8 @@ export default class Calculator extends Component {
     return (currentDisplay + value).replace(/\x\x/g, '^');
   }
 
+  
+
   customButton(value, currentStyle) {
     return (
       <View style={currentStyle}>
@@ -59,40 +69,33 @@ export default class Calculator extends Component {
           </Text>
         </View>
 
-        <View style={styles.container}>
-          { this.customButton('C', styles.darkButton) }
-          { this.customButton('()', styles.darkButton) }
-          { this.customButton('del', styles.darkButton) }
-          { this.customButton('/', styles.darkButton) }
+        {
+          this.buttons.map(line => (
+            <View style={styles.container}>
+              { line.map(value => this.customButton(value, styles.normalButton) ) }
+            </View>)
+          )
+        }
+
+        {/* <View style={styles.container}>
+          { this.buttons[0].map(value => this.customButton(value, styles.darkButton)) }
         </View>
 
         <View style={styles.container}>
-          {this.customButton('7', styles.normalButton)}
-          {this.customButton('8', styles.normalButton)}
-          {this.customButton('9', styles.normalButton)}
-          {this.customButton('x', styles.normalButton)}
+          { this.buttons[1].map(value => this.customButton(value, styles.normalButton)) }
         </View>
 
         <View style={styles.container}>
-          {this.customButton('4', styles.normalButton)}
-          {this.customButton('5', styles.normalButton)}
-          {this.customButton('6', styles.normalButton)}
-          {this.customButton('-', styles.normalButton)}
+          { this.buttons[2].map(value => this.customButton(value, styles.normalButton)) }
         </View>
 
         <View style={styles.container}>
-          {this.customButton('1', styles.normalButton)}
-          {this.customButton('2', styles.normalButton)}
-          {this.customButton('3', styles.normalButton)}
-          {this.customButton('+', styles.normalButton)}
+          { this.buttons[3].map(value => this.customButton(value, styles.normalButton)) }          
         </View>
 
         <View style={styles.container}>
-          {this.customButton('+/-', styles.normalButton)}
-          {this.customButton('0', styles.normalButton)}
-          {this.customButton('.', styles.normalButton)}
-          {this.customButton('=', styles.highlightButton)}
-        </View>
+          { this.buttons[4].map(value => this.customButton(value, styles.normalButton)) }
+        </View> */}
       </View>
     );
   }
