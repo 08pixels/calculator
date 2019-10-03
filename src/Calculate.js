@@ -1,10 +1,12 @@
-import { clear } from "sisteransi";
-
 const EMPTY_EXPR = '';
 const ERROR_MSG = 'Error';
 
+function errorMessage() {
+  return ERROR_MSG;
+}
+
 function isShowingErrorMessage(expr) {
-  return expr === 'Error';
+  return expr === errorMessage();
 }
 
 function clearScreen() {
@@ -12,11 +14,14 @@ function clearScreen() {
 }
 
 function evaluateExpr(expr) {
-  let answer = EMPTY_EXPR;
+  let answer = clearScreen();
 
   if (expr) {
     try {
-      answer = eval(expr.replace(/x/gi, '*'));
+      expr = expr.replace(/x/gi, '*');
+      expr = expr.replace(/\^/gi, '**');
+
+      answer = eval(expr);
     } catch {
       answer = ERROR_MSG;
     }
@@ -26,7 +31,7 @@ function evaluateExpr(expr) {
 }
 
 function eraseLast(expr) {
-  if (expr.length !== 0) {
+  if (expr.length === 0) {
     return clearScreen();
   }
 
@@ -42,7 +47,20 @@ function addToExpr(expr, value) {
     expr = clearScreen();
   }
 
-  return expr + value;
+  /* do not allow a sequence of the same operator */
+  switch (value) {
+    case '^':
+    case '/':
+    case 'x':
+    case '-':
+    case '+':
+      if (value === expr[expr.length - 1]) {
+        return expr;
+      }
+      break;
+    default:
+      return expr + value;
+  }
 }
 
 export default function calculate(expr, value) {

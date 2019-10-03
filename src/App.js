@@ -8,16 +8,15 @@ export default class Calculator extends Component {
     super(props);
 
     this.buttons = [
-      ['C', '()', 'del', '/'],
+      ['C', 'del', '^', '/'],
       ['7', '8', '9', 'x'],
       ['4', '5', '6', '-'],
       ['1', '2', '3', '+'],
-      ['+/-', '0', '.', '='],
+      ['.', '0', '='],
     ];
 
     this.state = {
       display: '',
-      parenthesis: [],
     };
   }
 
@@ -44,7 +43,6 @@ export default class Calculator extends Component {
               <CustomButton
                 key={value}
                 value={value}
-                color="#757575"
                 update={() => this.update(value)}
               />
             ))}
@@ -65,7 +63,7 @@ const styles = StyleSheet.create({
   },
   display: {
     flex: 4,
-    backgroundColor: '#757575',
+    backgroundColor: '#303030',
     justifyContent: 'center',
     alignItems: 'center',
   },
