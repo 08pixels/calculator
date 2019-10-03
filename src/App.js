@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import CustomButton from './CustomButton';
+import calculate from './Calculate';
 
 export default class Calculator extends Component {
   constructor(props) {
@@ -15,62 +16,19 @@ export default class Calculator extends Component {
     ];
 
     this.state = {
-      opened: false,
       display: '',
+      parenthesis: [],
     };
   }
 
   update(value) {
     this.setState({
-      display: this.getResult(
-        this.state.display,
-        value,
-        this.state.opened,
-      ).toString(),
-      opened: value === '()' ? !this.state.opened : this.state.opened,
+      display: this.getResult(this.state.display, value).toString(),
     });
   }
 
-  getResult(currentDisplay, value, opened) {
-    if (currentDisplay === 'Error') {
-      currentDisplay = '';
-    }
-
-    if (value === 'C') {
-      return '';
-    }
-
-    if (value === '=') {
-      if (currentDisplay) {
-        let answer = '';
-
-        try {
-          answer = eval(currentDisplay.replace(/x/gi, '*'));
-        } catch {
-          answer = 'Error';
-        }
-
-        return answer;
-      }
-      return '';
-    }
-
-    if (value === '()') {
-      if (opened) {
-        return currentDisplay + ')';
-      }
-      return currentDisplay + '(';
-    }
-
-    if (value === 'del') {
-      if (currentDisplay.length !== 0) {
-        return currentDisplay.substr(0, currentDisplay.length - 1);
-      }
-
-      return '';
-    }
-
-    return (currentDisplay + value).replace(/\x\x/g, '^');
+  getResult(expr, value) {
+    return calculate(expr, value);
   }
 
   render() {
