@@ -3,51 +3,69 @@ import {View, Text, StyleSheet} from 'react-native';
 import CustomButton from './CustomButton';
 
 export default class Calculator extends Component {
-  
   constructor(props) {
     super(props);
-    
+
     this.buttons = [
       ['C', '()', 'del', '/'],
       ['7', '8', '9', 'x'],
       ['4', '5', '6', '-'],
       ['1', '2', '3', '+'],
-      ['+/-', '0', '.', '=']
+      ['+/-', '0', '.', '='],
     ];
 
     this.state = {
       opened: false,
       display: '',
     };
-
   }
 
   update(value) {
     this.setState({
-      display: this.getResult(this.state.display, value, this.state.opened).toString(),
-      opened: value == '()' ? !this.state.opened : this.state.opened,
-    })
+      display: this.getResult(
+        this.state.display,
+        value,
+        this.state.opened,
+      ).toString(),
+      opened: value === '()' ? !this.state.opened : this.state.opened,
+    });
   }
 
   getResult(currentDisplay, value, opened) {
-    if(value == 'C')
-      return '';
+    if (currentDisplay === 'Error') {
+      currentDisplay = '';
+    }
 
-    if(value == '='){
-      if(currentDisplay)
-        return eval(currentDisplay.replace(/x/gi, '*'));
+    if (value === 'C') {
       return '';
     }
 
-    if(value == '()') {
-      if(opened)
+    if (value === '=') {
+      if (currentDisplay) {
+        let answer = '';
+
+        try {
+          answer = eval(currentDisplay.replace(/x/gi, '*'));
+        } catch {
+          answer = 'Error';
+        }
+
+        return answer;
+      }
+      return '';
+    }
+
+    if (value === '()') {
+      if (opened) {
         return currentDisplay + ')';
+      }
       return currentDisplay + '(';
     }
 
-    if(value == 'del') {
-      if(currentDisplay.length != 0)
+    if (value === 'del') {
+      if (currentDisplay.length !== 0) {
         return currentDisplay.substr(0, currentDisplay.length - 1);
+      }
 
       return '';
     }
@@ -58,30 +76,22 @@ export default class Calculator extends Component {
   render() {
     return (
       <View style={styles.main}>
-        
         <View style={styles.display}>
           <Text style={styles.text}> {this.state.display} </Text>
         </View>
 
-        { this.buttons.map(line => (
-            <View
-            key={line.join('')}
-            style={styles.container}
-            >
-              {
-                line.map(value => (
-                  <CustomButton
-                  key={value}
-                  value={value}
-                  color='757575'
-                  update={() => this.update(value)}
-                  />
-                ))
-              }
-            </View>)
-          )
-        }
-
+        {this.buttons.map(line => (
+          <View key={line.join('')} style={styles.container}>
+            {line.map(value => (
+              <CustomButton
+                key={value}
+                value={value}
+                color="#757575"
+                update={() => this.update(value)}
+              />
+            ))}
+          </View>
+        ))}
       </View>
     );
   }
@@ -103,6 +113,6 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 35,
-    color: '#ccc',
-  }
+    color: '#fff',
+  },
 });
