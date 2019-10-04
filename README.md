@@ -11,4 +11,4 @@ This project is just a React-Native study.
 
 ## Screenshot
 
-![](/assets/screen.jpg)
+<img src='./assets/screen.jpg' width=280>
