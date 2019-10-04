@@ -57,7 +57,6 @@ function addToExpr(expr, value) {
       if (value === expr[expr.length - 1]) {
         return expr;
       }
-      break;
     default:
       return expr + value;
   }

@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, StatusBar} from 'react-native';
 import CustomButton from './CustomButton';
 import calculate from './Calculate';
+import color from './Colors';
 
 export default class Calculator extends Component {
   constructor(props) {
@@ -16,13 +17,13 @@ export default class Calculator extends Component {
     ];
 
     this.state = {
-      display: '',
+      expr: '',
     };
   }
 
   update(value) {
     this.setState({
-      display: this.getResult(this.state.display, value).toString(),
+      expr: this.getResult(this.state.expr, value).toString(),
     });
   }
 
@@ -33,8 +34,9 @@ export default class Calculator extends Component {
   render() {
     return (
       <View style={styles.main}>
-        <View style={styles.display}>
-          <Text style={styles.text}> {this.state.display} </Text>
+        <StatusBar backgroundColor={color.BLACK} barStyle="light-content" />
+        <View style={styles.expr}>
+          <Text style={styles.text}> {this.state.expr} </Text>
         </View>
 
         {this.buttons.map(line => (
@@ -61,7 +63,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
   },
-  display: {
+  expr: {
     flex: 4,
     backgroundColor: '#303030',
     justifyContent: 'center',
@@ -69,6 +71,6 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 35,
-    color: '#fff',
+    color: '#FFFFFF',
   },
 });

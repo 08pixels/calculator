@@ -1,7 +1,7 @@
 const color = {
   ORANGE: '#F4511E',
   BLACK: '#212121',
-  GRAY: '#CCCFFF',
+  WHITE: '#FFFFFF',
 };
 
 export default color;
