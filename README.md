@@ -1,4 +1,4 @@
-# Basic Calculator
+# Basic Calculator ![](assets/logo.svg)
 
 This project is just a React-Native study.
 
